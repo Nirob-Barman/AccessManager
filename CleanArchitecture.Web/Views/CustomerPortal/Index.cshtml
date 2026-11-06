@@ -1,0 +1,415 @@
+﻿@model CleanArchitecture.Web.Controllers.CustomerDashboardViewModel
+
+@{
+    ViewData["Title"] = "Customer Dashboard";
+
+    var customerName = string.IsNullOrWhiteSpace(Model.FullName)
+        ? "Customer"
+        : Model.FullName.Trim();
+
+    var initial = customerName.Substring(0, 1).ToUpperInvariant();
+
+    var permissions = Model.Permissions ?? new List<string>();
+
+    var hasAccountStatus =
+        !string.IsNullOrWhiteSpace(Model.AccountStatus)
+        && Model.AccountStatus != "Not available";
+
+    var isActive = string.Equals(
+        Model.AccountStatus,
+        "Active",
+        StringComparison.OrdinalIgnoreCase);
+}
+
+<div class="customer-dashboard">
+
+    <!-- Welcome Header -->
+    <section class="customer-welcome">
+
+        <div class="customer-welcome-content">
+
+            <span class="customer-welcome-label">
+                <i class="bi bi-person-heart"></i>
+                CUSTOMER PORTAL
+            </span>
+
+            <h2>Welcome back, @customerName!</h2>
+
+            <p>
+                Manage your personal information and
+                access your customer account.
+            </p>
+
+            <div class="customer-session-status">
+                <span class="session-indicator"></span>
+                You are currently signed in
+            </div>
+
+        </div>
+
+        <div class="customer-welcome-avatar">
+            @initial
+        </div>
+
+    </section>
+
+    <!-- Statistics Cards -->
+    <section class="customer-stat-grid">
+
+        <div class="customer-stat-card">
+
+            <div class="customer-stat-icon purple">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+
+            <div>
+                <span>Customer ID</span>
+                <h4>@Model.CustomerId</h4>
+            </div>
+
+        </div>
+
+        <div class="customer-stat-card">
+
+            <div class="customer-stat-icon green">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+                <span>Account Status</span>
+
+                <h4>
+                    @(hasAccountStatus
+                                        ? Model.AccountStatus
+                                        : "Unknown")
+                </h4>
+            </div>
+
+        </div>
+
+        <div class="customer-stat-card">
+
+            <div class="customer-stat-icon blue">
+                <i class="bi bi-person-circle"></i>
+            </div>
+
+            <div>
+                <span>Account Type</span>
+                <h4>@Model.Role</h4>
+            </div>
+
+        </div>
+
+        <div class="customer-stat-card">
+
+            <div class="customer-stat-icon orange">
+                <i class="bi bi-key-fill"></i>
+            </div>
+
+            <div>
+                <span>Permissions</span>
+                <h4>@permissions.Count</h4>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Main Content -->
+    <section class="customer-content-grid">
+
+        <!-- Personal Information -->
+        <div class="customer-panel">
+
+            <div class="customer-panel-header">
+
+                <div>
+                    <h5>My Profile</h5>
+                    <p>Your personal account information</p>
+                </div>
+
+                <i class="bi bi-person-lines-fill"></i>
+
+            </div>
+
+            <div class="customer-profile">
+
+                <div class="customer-profile-avatar">
+                    @initial
+                </div>
+
+                <div class="customer-profile-name">
+
+                    <h4>@customerName</h4>
+
+                    <span>Customer</span>
+
+                </div>
+
+            </div>
+
+            <div class="customer-information-list">
+
+                <div class="customer-information-item">
+
+                    <div class="information-icon">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+
+                    <div>
+                        <span>Customer ID</span>
+                        <strong>@Model.CustomerId</strong>
+                    </div>
+
+                </div>
+
+                <div class="customer-information-item">
+
+                    <div class="information-icon">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+
+                    <div>
+                        <span>Email Address</span>
+                        <strong>@Model.Email</strong>
+                    </div>
+
+                </div>
+
+                <div class="customer-information-item">
+
+                    <div class="information-icon">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+
+                    <div>
+                        <span>Phone Number</span>
+                        <strong>@Model.PhoneNumber</strong>
+                    </div>
+
+                </div>
+
+                <div class="customer-information-item">
+
+                    <div class="information-icon">
+                        <i class="bi bi-person-check"></i>
+                    </div>
+
+                    <div>
+                        <span>Account Role</span>
+                        <strong>@Model.Role</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <a asp-controller="Account"
+               asp-action="Profile"
+               class="customer-primary-button">
+
+                <i class="bi bi-pencil-square"></i>
+                Manage My Profile
+
+            </a>
+
+        </div>
+
+        <!-- Account Overview -->
+        <div class="customer-panel">
+
+            <div class="customer-panel-header">
+
+                <div>
+                    <h5>Account Overview</h5>
+                    <p>Your account and security information</p>
+                </div>
+
+                <i class="bi bi-shield-lock-fill"></i>
+
+            </div>
+
+            <div class="customer-account-card">
+
+                <div class="account-card-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        @(Model.IsAuthenticated
+                                                ? "Authenticated"
+                                                : "Not Authenticated")
+                    </strong>
+
+                    <p>
+                        Your current login session status.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="customer-account-details">
+
+                <div>
+                    <span>Customer Account</span>
+
+                    <strong>
+                        @(Model.IsAuthenticated
+                                                ? "Signed In"
+                                                : "Not Signed In")
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Account Status</span>
+
+                    <strong>
+                        @(hasAccountStatus
+                                                ? Model.AccountStatus
+                                                : "Unknown")
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Assigned Role</span>
+                    <strong>@Model.Role</strong>
+                </div>
+
+                <div>
+                    <span>Available Permissions</span>
+                    <strong>@permissions.Count</strong>
+                </div>
+
+            </div>
+
+            <a asp-controller="Home"
+               asp-action="Privacy"
+               class="customer-secondary-link">
+
+                <i class="bi bi-shield-lock"></i>
+
+                Privacy Information
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- Permissions -->
+    <section class="customer-panel customer-permissions-panel">
+
+        <div class="customer-panel-header">
+
+            <div>
+                <h5>My Permissions</h5>
+                <p>Permissions assigned to your customer account</p>
+            </div>
+
+            <i class="bi bi-key-fill"></i>
+
+        </div>
+
+        @if (permissions.Any())
+        {
+            <div class="customer-permission-grid">
+
+                @foreach (var permission in permissions)
+                {
+                    <div class="customer-permission-item">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <span>@permission</span>
+
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="customer-empty-state">
+
+                <i class="bi bi-shield-lock"></i>
+
+                <strong>No permission claims found</strong>
+
+                <span>
+                    No individual permission claims are available
+                    in your current login session.
+                </span>
+
+            </div>
+        }
+
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="customer-panel customer-quick-panel">
+
+        <div class="customer-panel-header">
+
+            <div>
+                <h5>Quick Actions</h5>
+                <p>Manage your customer account</p>
+            </div>
+
+            <i class="bi bi-lightning-charge-fill"></i>
+
+        </div>
+
+        <div class="customer-quick-grid">
+
+            <a asp-controller="Account"
+               asp-action="Profile"
+               class="customer-quick-action">
+
+                <i class="bi bi-person-circle"></i>
+
+                <span>My Profile</span>
+
+                <small>
+                    View and update personal information
+                </small>
+
+            </a>
+
+            <a asp-controller="Account"
+               asp-action="ChangePassword"
+               class="customer-quick-action">
+
+                <i class="bi bi-key"></i>
+
+                <span>Change Password</span>
+
+                <small>
+                    Update your account password
+                </small>
+
+            </a>
+
+            <a asp-controller="Home"
+               asp-action="Privacy"
+               class="customer-quick-action">
+
+                <i class="bi bi-shield-lock"></i>
+
+                <span>Privacy</span>
+
+                <small>
+                    Read privacy information
+                </small>
+
+            </a>
+
+        </div>
+
+    </section>
+
+</div>

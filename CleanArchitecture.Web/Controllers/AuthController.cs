@@ -477,7 +477,7 @@ public class AuthController : Controller
                 RedirectToAction("Index", "Employee"),
 
             RoleConstants.Customer =>
-                RedirectToAction("Index", "Customer"),
+                RedirectToAction("Index", "CustomerPortal"),
 
             _ => RedirectToAction("AccessDenied", "Auth")
         };

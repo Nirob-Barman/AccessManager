@@ -39,6 +39,11 @@
         <link rel="stylesheet" href="~/css/employee-dashboard.css" asp-append-version="true" />
     }
 
+    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "CustomerPortal")
+    {
+        <link rel="stylesheet" href="~/css/customer-dashboard.css" asp-append-version="true" />
+    }
+
 </head>
 <body>
 

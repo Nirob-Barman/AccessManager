@@ -1,10 +1,11 @@
-﻿using System.Security.Claims;
+﻿using CleanArchitecture.Application.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CleanArchitecture.Web.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = RoleConstants.Employee)]
     public class EmployeeController : Controller
     {
         public IActionResult Index()
