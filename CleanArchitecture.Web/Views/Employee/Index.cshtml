@@ -1,0 +1,315 @@
+﻿@model CleanArchitecture.Web.Controllers.EmployeeDashboardViewModel
+
+@{
+    ViewData["Title"] = "My Dashboard";
+
+    var employeeName = string.IsNullOrWhiteSpace(Model.FullName)
+        ? "Employee"
+        : Model.FullName;
+
+    var initial = employeeName.Trim().Substring(0, 1).ToUpperInvariant();
+
+    var permissions = Model.Permissions ?? new List<string>();
+}
+
+<div class="employee-dashboard">
+
+    <!-- Welcome Section -->
+    <section class="employee-welcome">
+        <div class="welcome-content">
+            <span class="welcome-label">
+                <i class="bi bi-person-workspace"></i>
+                EMPLOYEE WORKSPACE
+            </span>
+
+            <h2>Welcome back, @employeeName!</h2>
+
+            <p>
+                Welcome to your personal workspace.
+                Manage your profile and view your account information.
+            </p>
+
+            <div class="welcome-status">
+                <span class="status-indicator"></span>
+                Your account is authenticated
+            </div>
+        </div>
+
+        <div class="welcome-avatar">
+            @initial
+        </div>
+    </section>
+
+    <!-- Statistics / Account Cards -->
+    <section class="employee-stat-grid">
+
+        <div class="employee-stat-card">
+            <div class="employee-stat-icon purple">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+
+            <div>
+                <span>Employee ID</span>
+                <h4>@Model.EmployeeId</h4>
+            </div>
+        </div>
+
+        <div class="employee-stat-card">
+            <div class="employee-stat-icon green">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+                <span>Account Status</span>
+                <h4>Authenticated</h4>
+            </div>
+        </div>
+
+        <div class="employee-stat-card">
+            <div class="employee-stat-icon blue">
+                <i class="bi bi-person-gear"></i>
+            </div>
+
+            <div>
+                <span>Assigned Role</span>
+                <h4>@Model.Role</h4>
+            </div>
+        </div>
+
+        <div class="employee-stat-card">
+            <div class="employee-stat-icon orange">
+                <i class="bi bi-key-fill"></i>
+            </div>
+
+            <div>
+                <span>Permissions</span>
+                <h4>@permissions.Count</h4>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Main Content -->
+    <section class="employee-content-grid">
+
+        <!-- Personal Information -->
+        <div class="employee-panel">
+
+            <div class="employee-panel-header">
+                <div>
+                    <h5>Personal Information</h5>
+                    <p>Your account information</p>
+                </div>
+
+                <i class="bi bi-person-lines-fill"></i>
+            </div>
+
+            <div class="employee-profile">
+
+                <div class="profile-avatar">
+                    @initial
+                </div>
+
+                <div class="profile-name">
+                    <h4>@employeeName</h4>
+                    <span>@Model.Role</span>
+                </div>
+
+            </div>
+
+            <div class="profile-information">
+
+                <div class="information-item">
+                    <div class="information-icon">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+
+                    <div>
+                        <span>Employee ID</span>
+                        <strong>@Model.EmployeeId</strong>
+                    </div>
+                </div>
+
+                <div class="information-item">
+                    <div class="information-icon">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+
+                    <div>
+                        <span>Email Address</span>
+                        <strong>@Model.Email</strong>
+                    </div>
+                </div>
+
+                <div class="information-item">
+                    <div class="information-icon">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+
+                    <div>
+                        <span>Phone Number</span>
+                        <strong>@Model.PhoneNumber</strong>
+                    </div>
+                </div>
+
+                <div class="information-item">
+                    <div class="information-icon">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+
+                    <div>
+                        <span>Assigned Role</span>
+                        <strong>@Model.Role</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <a asp-controller="Account"
+               asp-action="Profile"
+               class="employee-profile-button">
+                <i class="bi bi-pencil-square"></i>
+                Manage My Profile
+            </a>
+
+        </div>
+
+        <!-- Account Information -->
+        <div class="employee-panel">
+
+            <div class="employee-panel-header">
+                <div>
+                    <h5>Account Overview</h5>
+                    <p>Your account security and access</p>
+                </div>
+
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+
+            <div class="account-status-card">
+                <div class="account-status-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+
+                <div>
+                    <strong>Authenticated</strong>
+                    <p>Your current session is authenticated.</p>
+                </div>
+            </div>
+
+            <div class="account-detail-list">
+
+                <div>
+                    <span>Account</span>
+                    <strong>
+                        @(Model.IsAuthenticated ? "Signed In" : "Not Signed In")
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Role</span>
+                    <strong>@Model.Role</strong>
+                </div>
+
+                <div>
+                    <span>Access Permissions</span>
+                    <strong>@permissions.Count</strong>
+                </div>
+
+            </div>
+
+            <a asp-controller="Home"
+               asp-action="Privacy"
+               class="employee-secondary-link">
+                <i class="bi bi-shield-check"></i>
+                Privacy Information
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- Permissions -->
+    <section class="employee-panel employee-permissions-panel">
+
+        <div class="employee-panel-header">
+            <div>
+                <h5>My Permissions</h5>
+                <p>Access permissions assigned to your account</p>
+            </div>
+
+            <i class="bi bi-key-fill"></i>
+        </div>
+
+        @if (permissions.Any())
+        {
+            <div class="permission-grid">
+
+                @foreach (var permission in permissions)
+                {
+                    <div class="permission-item">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>@permission</span>
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="employee-empty-state">
+                <i class="bi bi-shield-lock"></i>
+                <strong>No permission claims found</strong>
+                <span>
+                    No individual permission claims are available
+                    in your current login session.
+                </span>
+            </div>
+        }
+
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="employee-panel employee-quick-panel">
+
+        <div class="employee-panel-header">
+            <div>
+                <h5>Quick Actions</h5>
+                <p>Access your account tools</p>
+            </div>
+
+            <i class="bi bi-lightning-charge-fill"></i>
+        </div>
+
+        <div class="employee-quick-grid">
+
+            <a asp-controller="Account"
+               asp-action="Profile"
+               class="employee-quick-action">
+                <i class="bi bi-person-circle"></i>
+                <span>My Profile</span>
+                <small>View and update your profile</small>
+            </a>
+
+            <a asp-controller="Home"
+               asp-action="Privacy"
+               class="employee-quick-action">
+                <i class="bi bi-shield-lock"></i>
+                <span>Privacy</span>
+                <small>View privacy information</small>
+            </a>
+
+            <a asp-controller="Account"
+               asp-action="ChangePassword"
+               class="employee-quick-action">
+                <i class="bi bi-key"></i>
+                <span>Change Password</span>
+                <small>Update your account password</small>
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
