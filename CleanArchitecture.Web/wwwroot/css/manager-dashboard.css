@@ -1,0 +1,31 @@
+.manager-dashboard {
+    width: 100%;
+}
+
+    /* Team Overview */
+
+    .manager-dashboard .role-progress-bar {
+        background: linear-gradient(90deg, #4f46e5, #818cf8);
+    }
+
+    .manager-dashboard .inactive-progress {
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    }
+
+    /* Recent Employees */
+
+    .manager-dashboard .table-avatar {
+        background: #eef2ff;
+        color: #4f46e5;
+    }
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .manager-dashboard .dashboard-welcome {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}

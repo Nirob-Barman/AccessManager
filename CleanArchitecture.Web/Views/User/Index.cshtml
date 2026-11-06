@@ -1,0 +1,168 @@
+﻿@model List<PermissionControl.Controllers.UserDummy>
+
+@{
+    ViewData["Title"] = "User Management";
+    var permissions = Context.Items["UserPermissions"] as HashSet<string> ?? new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+        <h3>User Management</h3>
+
+        <div>
+            @if (permissions.Contains("Users.List.Export"))
+            {
+                <a asp-action="Export" class="btn btn-success">
+                    <i class="bi bi-download"></i> Export
+                </a>
+            }
+
+            
+            @if (permissions.Contains("Users.List.Create"))
+            {
+                <a asp-controller="User"
+                   asp-action="Create"
+                   class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Create User
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            User List
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th style="min-width:280px">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.Name</td>
+                            <td>@user.Email</td>
+
+                            <td>
+                                @if (user.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Inactive</span>
+                                }
+                            </td>
+
+                            <td>
+
+
+                                @if (permissions.Contains("Users.List.Edit"))
+                                {
+                                    <a asp-action="Edit"
+                                       asp-route-id="@user.Id"
+                                       class="btn btn-sm btn-primary">
+                                        Edit
+                                    </a>
+                                }
+
+                                @if (permissions.Contains("Users.List.ResetPassword"))
+                                {
+                                    <form asp-action="ResetPassword"
+                                          asp-route-id="@user.Id"
+                                          method="post"
+                                          class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn btn-sm btn-warning">
+                                            Reset Password
+                                        </button>
+                                    </form>
+                                }
+
+
+
+                                @if (user.IsActive)
+                                {
+                                    @if (permissions.Contains("Users.List.Deactivate"))
+                                    {
+                                        <form asp-action="Deactivate"
+                                              asp-route-id="@user.Id"
+                                              method="post"
+                                              class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-sm btn-secondary">
+                                                Deactivate
+                                            </button>
+                                        </form>
+                                    }
+                                }
+                                else
+                                {
+                                    @if (permissions.Contains("Users.List.Activate"))
+                                    {
+                                        <form asp-action="Activate"
+                                              asp-route-id="@user.Id"
+                                              method="post"
+                                              class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-sm btn-success">
+                                                Activate
+                                            </button>
+                                        </form>
+                                    }
+                                }
+
+                                @if (permissions.Contains("Users.List.Delete"))
+                                {
+                                    <form asp-action="Delete"
+                                          asp-route-id="@user.Id"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Delete this user?')">
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn btn-sm btn-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+                                }
+
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,44 @@
+﻿@if (User.HasClaim(c => c.Type == "ImpersonationUserId"))
+{
+    <div class="impersonation-banner">
+
+        <div class="impersonation-info">
+
+            <div class="impersonation-icon">
+                <i class="bi bi-person-exclamation"></i>
+            </div>
+
+            <div>
+
+                <strong>Impersonation Mode Active</strong>
+
+                <div class="impersonation-description">
+
+                    You are currently logged in as
+                    <strong>@User.Identity?.Name</strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <form asp-controller="Auth"
+              asp-action="StopImpersonation"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <button type="submit"
+                    class="btn btn-danger btn-sm">
+
+                <i class="bi bi-arrow-return-left me-1"></i>
+
+                Return to Previous User
+
+            </button>
+
+        </form>
+
+    </div>
+}

@@ -1,0 +1,93 @@
+﻿@{
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AccessManager</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CleanArchitecture.Web.styles.css" asp-append-version="true" />
+
+    @if (!isAuthenticated)
+    {
+        <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
+    }
+
+    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "SuperAdmin")
+    {
+        <link rel="stylesheet" href="~/css/superadmin-dashboard.css" asp-append-version="true" />
+    }
+
+    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Admin")
+    {
+        <link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+    }
+
+    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Manager")
+    {
+        <link rel="stylesheet" href="~/css/manager-dashboard.css" asp-append-version="true" />
+    }
+
+</head>
+<body>
+
+    @if (isAuthenticated)
+    {
+        <div class="dashboard-wrapper">
+
+            <!-- Sidebar -->
+            <partial name="~/Views/Shared/Layout/_Sidebar.cshtml" />
+
+            <!-- Mobile Sidebar Overlay -->
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+            <!-- Main Area -->
+            <div class="main-wrapper">
+
+                <!-- Top Navbar -->
+                <partial name="~/Views/Shared/Layout/_TopNavbar.cshtml" />
+
+                <!-- Impersonation -->
+                <partial name="~/Views/Shared/Navigation/_ImpersonationBanner.cshtml" />
+
+                <!-- Page Content -->
+                <main class="dashboard-content">
+
+                    <partial name="~/Views/Shared/Layout/_Breadcrumb.cshtml" />
+
+                    @RenderBody()
+
+                </main>
+
+                <!-- Footer -->
+                <footer class="dashboard-footer">
+                    © 2026 AccessManager. All rights reserved.
+                </footer>
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="public-layout">
+            <partial name="~/Views/Shared/Navigation/_LoginNavigation.cshtml" />
+
+            <main class="container py-4">
+                @RenderBody()
+            </main>
+        </div>
+    }
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

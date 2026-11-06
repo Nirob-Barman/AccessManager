@@ -1,0 +1,332 @@
+﻿@model CleanArchitecture.Web.Models.SuperAdminDashboard.SuperAdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Super Admin Dashboard";
+
+    var maxUsers = Model.RoleStatistics.Any()
+        ? Math.Max(Model.RoleStatistics.Max(x => x.UserCount), 1)
+        : 1;
+}
+
+<div class="superadmin-dashboard">
+
+    <!-- Welcome Header -->
+    <div class="dashboard-welcome">
+
+        <div>
+            <span class="welcome-label">
+                ADMINISTRATION OVERVIEW
+            </span>
+
+            <h3>Welcome back, @User.Identity?.Name</h3>
+
+            <p>
+                Here's what's happening across your AccessManager platform.
+            </p>
+        </div>
+
+        <div class="welcome-date">
+            <i class="bi bi-calendar3"></i>
+            @DateTime.Now.ToString("dd MMM yyyy")
+        </div>
+
+    </div>
+
+
+    <!-- Statistics -->
+    <div class="admin-stat-grid">
+
+        <div class="admin-stat-card">
+            <div class="stat-icon purple">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <div class="stat-details">
+                <span>Total Users</span>
+                <h3>@Model.TotalUsers.ToString("N0")</h3>
+                <small>Registered accounts</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="stat-icon green">
+                <i class="bi bi-person-check-fill"></i>
+            </div>
+
+            <div class="stat-details">
+                <span>Active Users</span>
+                <h3>@Model.ActiveUsers.ToString("N0")</h3>
+                <small>Currently active accounts</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="stat-icon orange">
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+
+            <div class="stat-details">
+                <span>Total Roles</span>
+                <h3>@Model.TotalRoles.ToString("N0")</h3>
+                <small>Configured system roles</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="stat-icon blue">
+                <i class="bi bi-key-fill"></i>
+            </div>
+
+            <div class="stat-details">
+                <span>Permissions</span>
+                <h3>@Model.TotalPermissions.ToString("N0")</h3>
+                <small>Configured permissions</small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Main Dashboard Grid -->
+    <div class="admin-dashboard-grid">
+
+        <!-- Role Distribution -->
+        <div class="admin-panel">
+
+            <div class="panel-header">
+                <div>
+                    <h5>User Distribution</h5>
+                    <p>Users grouped by assigned role</p>
+                </div>
+
+                <i class="bi bi-pie-chart-fill panel-header-icon"></i>
+            </div>
+
+            <div class="role-distribution">
+
+                @if (Model.RoleStatistics.Any())
+                {
+                    @foreach (var role in Model.RoleStatistics)
+                    {
+                        var percentage = Model.TotalUsers > 0
+                        ? (double)role.UserCount / Model.TotalUsers * 100
+                        : 0;
+
+                        <div class="role-stat-item">
+
+                            <div class="role-stat-heading">
+                                <span>@role.RoleName</span>
+                                <strong>@role.UserCount</strong>
+                            </div>
+
+                            <div class="role-progress">
+                                <div class="role-progress-bar"
+                                     style="width:@percentage.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%">
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="admin-empty-state">
+                        <i class="bi bi-bar-chart"></i>
+                        <p>No role statistics available.</p>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- Quick Actions -->
+        <div class="admin-panel">
+
+            <div class="panel-header">
+                <div>
+                    <h5>Quick Actions</h5>
+                    <p>Frequently used administration tools</p>
+                </div>
+
+                <i class="bi bi-lightning-charge-fill panel-header-icon"></i>
+            </div>
+
+            <div class="quick-action-grid">
+
+                <a asp-controller="RoleManagement"
+                   asp-action="Index"
+                   class="quick-action">
+
+                    <i class="bi bi-shield-check"></i>
+                    <span>Manage Roles</span>
+                    <small>Configure system roles</small>
+
+                </a>
+
+                <a asp-controller="RolePermission"
+                   asp-action="Index"
+                   class="quick-action">
+
+                    <i class="bi bi-key"></i>
+                    <span>Permissions</span>
+                    <small>Manage access rights</small>
+
+                </a>
+
+                <a asp-controller="Auth"
+                   asp-action="Login"
+                   class="quick-action">
+
+                    <i class="bi bi-person-gear"></i>
+                    <span>Authentication</span>
+                    <small>Authentication entry point</small>
+
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Privacy"
+                   class="quick-action">
+
+                    <i class="bi bi-file-earmark-lock"></i>
+                    <span>Privacy</span>
+                    <small>View privacy information</small>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Recent Users -->
+    <div class="admin-panel admin-table-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h5>Recent Users</h5>
+                <p>Recently registered accounts</p>
+            </div>
+
+            <i class="bi bi-people panel-header-icon"></i>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table admin-table align-middle">
+
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Registered</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model.RecentUsers.Any())
+                    {
+                        @foreach (var user in Model.RecentUsers)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="table-user">
+                                        <div class="table-avatar">
+                                            @(string.IsNullOrEmpty(user.FullName)
+                                                                                ? "U"
+                                                                                : user.FullName.Substring(0, 1).ToUpper())
+                                </div>
+
+                                        <strong>@user.FullName</strong>
+                                    </div>
+                                </td>
+
+                                <td>@user.Email</td>
+
+                                <td>
+                                    <span class="role-badge">
+                                        @user.Role
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @user.CreatedAt.ToString("dd MMM yyyy")
+                                </td>
+                            </tr>
+                                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">
+                                No recent users found.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- Recent Activities -->
+    <div class="admin-panel admin-table-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h5>Recent Activities</h5>
+                <p>Latest recorded system activities</p>
+            </div>
+
+            <i class="bi bi-activity panel-header-icon"></i>
+
+        </div>
+
+        <div class="activity-list">
+
+            @if (Model.RecentActivities.Any())
+            {
+                @foreach (var activity in Model.RecentActivities)
+                {
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+
+                        <div class="activity-content">
+                            <strong>@activity.Description</strong>
+                            <small>
+                                By @activity.UserName
+                                · @activity.CreatedAt.ToString("dd MMM yyyy HH:mm")
+                            </small>
+                        </div>
+
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="admin-empty-state">
+                    <i class="bi bi-clock-history"></i>
+                    <p>No recent activities recorded.</p>
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

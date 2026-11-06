@@ -1,0 +1,56 @@
+﻿@using CleanArchitecture.Infrastructure.Authorization
+
+@{
+    var userPermissions =
+        Context.Items["UserPermissions"] as HashSet<string>
+        ?? new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+    var visibleMenus = MenuConfiguration.GetMenus()
+        .Select(menu => new
+        {
+            Menu = menu,
+            SubMenus = menu.SubMenus
+                .Where(submenu =>
+                    userPermissions.Contains(
+                        $"{menu.Key}.{submenu.Key}.View"))
+                .OrderBy(submenu => submenu.SortOrder)
+                .ToList()
+        })
+        .Where(x => x.SubMenus.Any())
+        .OrderBy(x => x.Menu.SortOrder);
+}
+
+<ul class="navbar-nav me-auto">
+
+    @foreach (var item in visibleMenus)
+    {
+        <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle"
+               href="#"
+               data-bs-toggle="dropdown">
+
+                <i class="@item.Menu.Icon me-1"></i>
+                @item.Menu.Name
+
+            </a>
+
+            <ul class="dropdown-menu">
+
+                @foreach (var submenu in item.SubMenus)
+                {
+                    <li>
+                        <a class="dropdown-item"
+                           asp-controller="@submenu.Controller"
+                           asp-action="@submenu.Action">
+                            @submenu.Name
+                        </a>
+                    </li>
+                }
+
+            </ul>
+
+        </li>
+    }
+
+</ul>

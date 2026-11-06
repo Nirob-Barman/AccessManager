@@ -1,0 +1,32 @@
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+
+    var pageTitle = ViewData["Title"]?.ToString() ?? action ?? "Dashboard";
+}
+
+<nav aria-label="breadcrumb" class="dashboard-breadcrumb">
+
+    <ol class="breadcrumb mb-0">
+
+        <li class="breadcrumb-item">
+            <a asp-controller="Home" asp-action="Index">
+                <i class="bi bi-house-door me-1"></i>
+                Home
+            </a>
+        </li>
+
+        @if (!string.Equals(controller, "Home", StringComparison.OrdinalIgnoreCase))
+        {
+            <li class="breadcrumb-item">
+                @controller
+            </li>
+        }
+
+        <li class="breadcrumb-item active" aria-current="page">
+            @pageTitle
+        </li>
+
+    </ol>
+
+</nav>

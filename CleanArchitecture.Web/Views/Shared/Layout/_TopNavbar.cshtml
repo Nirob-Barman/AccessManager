@@ -1,0 +1,94 @@
+﻿
+<nav class="top-navbar">
+
+    <!-- LEFT: Sidebar Toggle -->
+    <div class="top-navbar-left">
+
+        <button class="sidebar-toggle"
+                type="button"
+                id="sidebarToggle"
+                aria-label="Toggle sidebar">
+
+            <i class="bi bi-list"></i>
+
+        </button>
+
+        <h6 class="mb-0">Dashboard</h6>
+
+    </div>
+
+    <!-- CENTER: Impersonation and Role Switching -->
+    <div class="top-navbar-center">
+
+        <partial name="~/Views/Shared/Navigation/_RoleSwitcher.cshtml" />
+
+    </div>
+
+    <!-- RIGHT: Notifications and Profile -->
+    <div class="top-navbar-right">
+
+        <button class="top-icon-button"
+                type="button"
+                title="Notifications">
+
+            <i class="bi bi-bell"></i>
+
+        </button>
+
+        <div class="dropdown">
+
+            <button class="user-profile dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+
+                <i class="bi bi-person-circle"></i>
+
+                <span>@User.Identity?.Name</span>
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+
+                <li>
+                    <a class="dropdown-item"
+                       asp-controller="Account"
+                       asp-action="Profile">
+
+                        <i class="bi bi-person me-2"></i>
+                        My Profile
+
+                    </a>
+                </li>
+
+                <li>
+                    <hr class="dropdown-divider" />
+                </li>
+
+                <li>
+
+                    <form asp-controller="Auth"
+                          asp-action="Logout"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="dropdown-item text-danger">
+
+                            <i class="bi bi-box-arrow-right me-2"></i>
+                            Logout
+
+                        </button>
+
+                    </form>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>

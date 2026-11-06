@@ -1,0 +1,426 @@
+﻿@model CleanArchitecture.Web.Models.RoleManagement.AssignUsersViewModel
+
+@{
+    ViewData["Title"] = "Assign Users";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+
+        <div>
+            <h3>
+                <i class="bi bi-people me-2"></i>
+                Assign Users to Role
+            </h3>
+
+            <p class="text-muted mb-0">
+                Manage users assigned to this role.
+            </p>
+        </div>
+
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Roles
+        </a>
+
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            <i class="bi bi-check-circle me-2"></i>
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Role Information -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-8">
+
+                    <small class="text-muted">
+                        Selected Role
+                    </small>
+
+                    <h4 class="mb-0">
+                        <i class="bi bi-shield-check text-primary me-2"></i>
+                        @Model.RoleName
+                    </h4>
+
+                </div>
+
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                    <span class="badge bg-primary fs-6"
+                          id="selectedCount">
+                        0 Selected
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <form asp-action="AssignUsers"
+          asp-controller="RoleManagement"
+          method="post"
+          id="assignUsersForm">
+
+        @Html.AntiForgeryToken()
+
+        <input type="hidden"
+               asp-for="RoleId" />
+
+        <input type="hidden"
+               asp-for="RoleName" />
+
+        <div class="card shadow-sm">
+
+            <div class="card-header bg-dark text-white">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <h6 class="mb-0">
+                        <i class="bi bi-person-check me-2"></i>
+                        Available Users
+                    </h6>
+
+                    <span>
+                        Total: @Model.Users.Count
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <!-- Search and Selection -->
+                <div class="row mb-3">
+
+                    <div class="col-md-6 mb-2">
+
+                        <input type="text"
+                               id="userSearch"
+                               class="form-control"
+                               placeholder="Search username or email..." />
+
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+
+                        <div class="d-flex flex-wrap gap-2 justify-content-md-end">
+
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-success"
+                                    id="selectAllBtn">
+
+                                <i class="bi bi-check-all me-1"></i>
+                                Select All
+
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger"
+                                    id="clearAllBtn">
+
+                                <i class="bi bi-x-circle me-1"></i>
+                                Clear All
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                @if (Model.Users.Any())
+                {
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle"
+                               id="usersTable">
+
+                            <thead class="table-light">
+
+                                <tr>
+                                    <th width="60">
+                                        Select
+                                    </th>
+
+                                    <th>Username</th>
+
+                                    <th>Email</th>
+
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                @for (int i = 0; i < Model.Users.Count; i++)
+                                {
+                                    <tr class="user-row">
+
+                                        <td>
+
+                                            <input type="hidden"
+                                                   asp-for="Users[i].UserId" />
+
+                                            <input type="hidden"
+                                                   asp-for="Users[i].UserName" />
+
+                                            <input type="hidden"
+                                                   asp-for="Users[i].Email" />
+
+                                            <input type="checkbox"
+                                                   asp-for="Users[i].IsSelected"
+                                                   class="form-check-input user-checkbox" />
+
+                                        </td>
+
+                                        <td>
+                                            <i class="bi bi-person-circle me-2 text-primary"></i>
+                                            @Model.Users[i].UserName
+                                        </td>
+
+                                        <td>
+                                            @Model.Users[i].Email
+                                        </td>
+
+                                        <td>
+
+                                            @if (Model.Users[i].IsSelected)
+                                            {
+                                                <span class="badge bg-success status-badge">
+                                                    Assigned
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary status-badge">
+                                                    Not Assigned
+                                                </span>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <div id="noUsersFound"
+                         class="text-center text-muted py-4"
+                         style="display:none;">
+
+                        <i class="bi bi-search fs-2"></i>
+
+                        <p class="mb-0 mt-2">
+                            No matching users found.
+                        </p>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        No users are registered in the system.
+                    </div>
+                }
+
+                <hr />
+
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+
+                    <div class="text-muted">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Select users to assign them to this role.
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-success"
+                            @(Model.Users.Any() ? null : "disabled")>
+
+                        <i class="bi bi-save me-1"></i>
+                        Save Assignments
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const searchInput = document.getElementById("userSearch");
+
+            const selectAllBtn = document.getElementById("selectAllBtn");
+
+            const clearAllBtn = document.getElementById("clearAllBtn");
+
+            const checkboxes = document.querySelectorAll(".user-checkbox");
+
+            const rows = document.querySelectorAll(".user-row");
+
+            const selectedCount = document.getElementById("selectedCount");
+
+            const noUsersFound = document.getElementById("noUsersFound");
+
+            function updateCount() {
+
+                const count = document.querySelectorAll(
+                    ".user-checkbox:checked"
+                ).length;
+
+                selectedCount.textContent = count + " Selected";
+
+            }
+
+            function updateStatus(checkbox) {
+
+                const row = checkbox.closest("tr");
+
+                const badge = row.querySelector(".status-badge");
+
+                if (checkbox.checked) {
+
+                    badge.textContent = "Assigned";
+
+                    badge.className = "badge bg-success status-badge";
+
+                } else {
+
+                    badge.textContent = "Not Assigned";
+
+                    badge.className = "badge bg-secondary status-badge";
+
+                }
+
+            }
+
+            checkboxes.forEach(function (checkbox) {
+
+                checkbox.addEventListener("change", function () {
+
+                    updateStatus(this);
+
+                    updateCount();
+
+                });
+
+            });
+
+            selectAllBtn.addEventListener("click", function () {
+
+                rows.forEach(function (row) {
+
+                    if (row.style.display !== "none") {
+
+                        const checkbox = row.querySelector(".user-checkbox");
+
+                        checkbox.checked = true;
+
+                        updateStatus(checkbox);
+
+                    }
+
+                });
+
+                updateCount();
+
+            });
+
+            clearAllBtn.addEventListener("click", function () {
+
+                rows.forEach(function (row) {
+
+                    if (row.style.display !== "none") {
+
+                        const checkbox = row.querySelector(".user-checkbox");
+
+                        checkbox.checked = false;
+
+                        updateStatus(checkbox);
+
+                    }
+
+                });
+
+                updateCount();
+
+            });
+
+            searchInput.addEventListener("input", function () {
+
+                const searchValue = this.value.toLowerCase().trim();
+
+                let visibleCount = 0;
+
+                rows.forEach(function (row) {
+
+                    const text = row.textContent.toLowerCase();
+
+                    const matched = text.includes(searchValue);
+
+                    row.style.display = matched ? "" : "none";
+
+                    if (matched) {
+                        visibleCount++;
+                    }
+
+                });
+
+                noUsersFound.style.display =
+                    visibleCount === 0 ? "block" : "none";
+
+            });
+
+            updateCount();
+
+        });
+
+    </script>
+
+}

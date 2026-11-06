@@ -1,0 +1,350 @@
+﻿@model CleanArchitecture.Web.Models.RolePermissions.RolePermissionViewModel
+
+@{
+    ViewData["Title"] = "Role Permissions";
+}
+
+<div class="container mt-4">
+
+    <h3 class="mb-4">
+        <i class="bi bi-shield-lock me-2"></i>
+        Role Permission Management
+    </h3>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle me-2"></i>
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            @TempData["Error"]
+        </div>
+    }
+
+    <!-- Role Selection -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <form asp-action="Index"
+                  asp-controller="RolePermission"
+                  method="get"
+                  id="roleForm">
+
+                <label class="form-label fw-bold">
+                    Select Role
+                </label>
+
+                <select name="roleId"
+                        id="roleSelect"
+                        class="form-select"
+                        asp-items="Model.Roles">
+                    <option value="">Select Role</option>
+                </select>
+
+            </form>
+
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.RoleId))
+    {
+        <!-- Permission Help Note -->
+        <div class="alert alert-info d-flex align-items-start mb-4">
+
+            <i class="bi bi-info-circle-fill me-2 mt-1"></i>
+
+            <div>
+                <strong>Important: Permission Configuration Guide</strong>
+
+                <ul class="mb-0 mt-2">
+                    <li>
+                        You must select the <strong>View</strong> permission
+                        to allow users to access and see a submenu.
+                    </li>
+
+                    <li>
+                        Other permissions such as
+                        <strong>Create, Edit, Delete</strong>,
+                        etc. are useful only when the user has access
+                        to the submenu.
+                    </li>
+
+                    <li>
+                        Without the <strong>View</strong> permission,
+                        users cannot access the submenu, even if
+                        other permissions are assigned.
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <form asp-action="SavePermissions"
+              asp-controller="RolePermission"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="roleId"
+                   value="@Model.RoleId" />
+
+            @if (Model.Menus.Any())
+            {
+                <!-- Global Permission Selection -->
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-body">
+
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+                            <div>
+                                <h6 class="mb-1">
+                                    <i class="bi bi-check2-square me-2"></i>
+                                    Permission Selection
+                                </h6>
+
+                                <small class="text-muted">
+                                    Manage all permissions at once.
+                                </small>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+
+                                <button type="button"
+                                        class="btn btn-success btn-sm"
+                                        onclick="selectPermissions(document)">
+                                    <i class="bi bi-check-all me-1"></i>
+                                    Select All
+                                </button>
+
+                                <button type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        onclick="clearPermissions(document)">
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    Clear All
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Menu List -->
+                @foreach (var menu in Model.Menus)
+                {
+                    <div class="card shadow-sm mb-3 permission-menu">
+
+                        <!-- Parent Menu Header -->
+                        <div class="card-header bg-dark text-white">
+
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+
+                                <div>
+                                    <i class="@menu.Icon me-2"></i>
+                                    <strong>@menu.Name</strong>
+                                </div>
+
+                                <div class="d-flex gap-2">
+
+                                    <button type="button"
+                                            class="btn btn-sm btn-light"
+                                            onclick="selectPermissions(this.closest('.permission-menu'))">
+
+                                        <i class="bi bi-check-all me-1"></i>
+                                        Select All
+
+                                    </button>
+
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-light"
+                                            onclick="clearPermissions(this.closest('.permission-menu'))">
+
+                                        <i class="bi bi-x-circle me-1"></i>
+                                        Clear
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            @if (menu.SubMenus.Any())
+                            {
+                                @foreach (var submenu in menu.SubMenus)
+                                {
+                                    <div class="border rounded p-3 mb-3 permission-submenu">
+
+                                        <!-- Submenu Header -->
+                                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+
+                                            <div>
+
+                                                <h6 class="mb-1">
+                                                    @submenu.Name
+                                                </h6>
+
+                                                <small class="text-muted">
+                                                    (@submenu.Controller/@submenu.Action)
+                                                </small>
+
+                                            </div>
+
+                                            <div class="d-flex gap-2">
+
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-success"
+                                                        onclick="selectPermissions(this.closest('.permission-submenu'))">
+
+                                                    <i class="bi bi-check-all me-1"></i>
+                                                    Select All
+
+                                                </button>
+
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="clearPermissions(this.closest('.permission-submenu'))">
+
+                                                    <i class="bi bi-x-circle me-1"></i>
+                                                    Clear
+
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+
+                                        <hr />
+
+                                        <!-- Submenu Permissions -->
+                                        <div class="row">
+
+                                            @foreach (var action in submenu.Permissions)
+                                            {
+                                                var permission =
+                                                $"{menu.Key}.{submenu.Key}.{action}";
+
+                                                var isChecked =
+                                                Model.AssignedPermissions != null &&
+                                                Model.AssignedPermissions.Contains(
+                                                permission,
+                                                StringComparer.OrdinalIgnoreCase);
+
+                                                <div class="col-md-3 col-sm-6 mb-2">
+
+                                                    <div class="form-check">
+
+                                                        <input class="form-check-input"
+                                                               type="checkbox"
+                                                               name="permissions"
+                                                               value="@permission"
+                                                               id="@permission"
+                                                               checked="@isChecked" />
+
+                                                        <label class="form-check-label"
+                                                               for="@permission">
+                                                            @action
+                                                        </label>
+
+                                                    </div>
+
+                                                </div>
+                                            }
+
+                                        </div>
+
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-muted mb-0">
+                                    No submenus available.
+                                </p>
+                            }
+
+                        </div>
+
+                    </div>
+                }
+
+                <!-- Save Button -->
+                <div class="d-flex justify-content-end mb-4">
+
+                    <button type="submit"
+                            class="btn btn-success">
+
+                        <i class="bi bi-save me-1"></i>
+                        Save Permissions
+
+                    </button>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    No menus are configured.
+                </div>
+            }
+
+        </form>
+    }
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        // Global / Menu / Submenu Select All
+        function selectPermissions(container) {
+
+            container.querySelectorAll(
+                'input[type="checkbox"][name="permissions"]'
+            ).forEach(function (checkbox) {
+
+                checkbox.checked = true;
+
+            });
+
+        }
+
+        // Global / Menu / Submenu Clear All
+        function clearPermissions(container) {
+
+            container.querySelectorAll(
+                'input[type="checkbox"][name="permissions"]'
+            ).forEach(function (checkbox) {
+
+                checkbox.checked = false;
+
+            });
+
+        }
+
+        // Automatically load permissions when role changes
+        document.getElementById("roleSelect")
+            .addEventListener("change", function () {
+
+                document.getElementById("roleForm").submit();
+
+            });
+
+    </script>
+
+}

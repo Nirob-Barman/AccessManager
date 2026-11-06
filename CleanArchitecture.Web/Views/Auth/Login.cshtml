@@ -1,0 +1,389 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+@inject IConfiguration Configuration
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Login - AccessManager</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/login.css"
+          asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="login-wrapper">
+
+        <div class="login-container">
+
+            <!-- LEFT BRANDING PANEL -->
+            <section class="login-brand-panel">
+
+                <div class="brand-content">
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="brand-logo">
+
+                        <i class="bi bi-buildings-fill"></i>
+
+                        <span>AccessManager</span>
+
+                    </a>
+
+                    <div class="brand-message">
+
+                        <div class="brand-badge">
+                            <i class="bi bi-shield-check"></i>
+                            Enterprise Management Platform
+                        </div>
+
+                        <h1>
+                            Manage Access.
+                            <span>Empower Your Organization.</span>
+                        </h1>
+
+                        <p>
+                            A centralized platform to manage users,
+                            roles, permissions, and business operations
+                            securely and efficiently.
+                        </p>
+
+                    </div>
+
+                    <div class="brand-features">
+
+                        <div class="brand-feature">
+                            <div class="brand-feature-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+
+                            <div>
+                                <strong>User Management</strong>
+                                <small>Centralized user administration</small>
+                            </div>
+                        </div>
+
+                        <div class="brand-feature">
+                            <div class="brand-feature-icon">
+                                <i class="bi bi-shield-lock-fill"></i>
+                            </div>
+
+                            <div>
+                                <strong>Role-Based Access</strong>
+                                <small>Flexible role and permission control</small>
+                            </div>
+                        </div>
+
+                        <div class="brand-feature">
+                            <div class="brand-feature-icon">
+                                <i class="bi bi-key-fill"></i>
+                            </div>
+
+                            <div>
+                                <strong>Secure Authentication</strong>
+                                <small>Protected application resources</small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="brand-footer">
+                        © 2026 AccessManager. All rights reserved.
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT LOGIN PANEL -->
+            <section class="login-form-panel">
+
+                <div class="login-form-container">
+
+                    <div class="mobile-brand">
+
+                        <i class="bi bi-buildings-fill"></i>
+
+                        <span>AccessManager</span>
+
+                    </div>
+
+                    <div class="login-heading">
+
+                        <div class="login-icon">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+
+                        <h2>Welcome Back!</h2>
+
+                        <p>
+                            Sign in to access your account and dashboard.
+                        </p>
+
+                    </div>
+
+
+                    <!-- LOGIN FORM -->
+                    <form asp-controller="Auth"
+                          asp-action="Login"
+                          method="post"
+                          id="loginForm">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger validation-summary">
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="form-group-custom">
+
+                            <label for="Email">
+                                Email Address
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="bi bi-envelope"></i>
+
+                                <input type="email"
+                                       id="Email"
+                                       name="Email"
+                                       class="form-control"
+                                       placeholder="Enter your email"
+                                       autocomplete="username"
+                                       required />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="form-group-custom">
+
+                            <div class="password-label-row">
+
+                                <label for="Password">
+                                    Password
+                                </label>
+
+                                <a asp-controller="Auth"
+                                   asp-action="ForgotPassword">
+                                    Forgot Password?
+                                </a>
+
+                            </div>
+
+                            <div class="input-wrapper">
+
+                                <i class="bi bi-lock"></i>
+
+                                <input type="password"
+                                       id="Password"
+                                       name="Password"
+                                       class="form-control"
+                                       placeholder="Enter your password"
+                                       autocomplete="current-password"
+                                       required />
+
+                                <button type="button"
+                                        class="password-toggle"
+                                        id="togglePassword"
+                                        aria-label="Show password">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Remember Me -->
+                        <div class="remember-row">
+
+                            <label class="remember-label">
+
+                                <input type="checkbox"
+                                       name="RememberMe"
+                                       value="true" />
+
+                                <span>Remember me</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- Submit -->
+                        <button type="submit"
+                                class="btn-login"
+                                id="loginButton">
+
+                            <span>Sign In</span>
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </button>
+
+                    </form>
+
+
+                    <!-- Divider -->
+                    <div class="login-divider">
+
+                        <span></span>
+
+                        <small>OR CONTINUE WITH</small>
+
+                        <span></span>
+
+                    </div>
+
+
+                    <!-- GOOGLE LOGIN -->
+                    <div id="g_id_onload"
+                         data-client_id="@Configuration["Authentication:Google:ClientId"]"
+                         data-callback="handleGoogleLogin"
+                         data-auto_prompt="false">
+                    </div>
+
+                    <div class="google-login-wrapper">
+
+                        <div class="g_id_signin"
+                             data-type="standard"
+                             data-size="large"
+                             data-theme="outline"
+                             data-text="signin_with"
+                             data-shape="rectangular"
+                             data-logo_alignment="left"
+                             data-width="350">
+                        </div>
+
+                    </div>
+
+
+                    <!-- Register -->
+                    <div class="register-section">
+
+                        <span>Don't have an account?</span>
+
+                        <a asp-controller="Auth"
+                           asp-action="Register">
+                            Create Account
+                        </a>
+
+                    </div>
+
+
+                    <div class="login-security">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        Your connection is protected by secure authentication.
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <script src="https://accounts.google.com/gsi/client"
+            async
+            defer></script>
+
+    <script>
+
+        // Show / Hide Password
+        document.getElementById("togglePassword")
+            .addEventListener("click", function () {
+
+                const password = document.getElementById("Password");
+                const icon = this.querySelector("i");
+
+                if (password.type === "password") {
+
+                    password.type = "text";
+
+                    icon.classList.remove("bi-eye");
+                    icon.classList.add("bi-eye-slash");
+
+                    this.setAttribute("aria-label", "Hide password");
+
+                } else {
+
+                    password.type = "password";
+
+                    icon.classList.remove("bi-eye-slash");
+                    icon.classList.add("bi-eye");
+
+                    this.setAttribute("aria-label", "Show password");
+                }
+
+            });
+
+
+        // Google Login
+        function handleGoogleLogin(response) {
+
+            const form = document.createElement("form");
+
+            form.method = "POST";
+            form.action = "/Auth/GoogleLogin";
+
+            const credential = document.createElement("input");
+
+            credential.type = "hidden";
+            credential.name = "Credential";
+            credential.value = response.credential;
+
+            form.appendChild(credential);
+
+            const token = document.querySelector(
+                '#loginForm input[name="__RequestVerificationToken"]'
+            );
+
+            if (token) {
+
+                const csrf = document.createElement("input");
+
+                csrf.type = "hidden";
+                csrf.name = "__RequestVerificationToken";
+                csrf.value = token.value;
+
+                form.appendChild(csrf);
+            }
+
+            document.body.appendChild(form);
+
+            form.submit();
+        }
+
+    </script>
+
+</body>
+</html>

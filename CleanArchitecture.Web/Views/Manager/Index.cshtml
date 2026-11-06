@@ -1,0 +1,314 @@
+﻿@model CleanArchitecture.Web.Models.ManagerDashboard.ManagerDashboardViewModel
+
+@{
+    ViewData["Title"] = "Manager Dashboard";
+}
+
+<div class="manager-dashboard">
+
+    <!-- Welcome Header -->
+    <div class="dashboard-welcome">
+
+        <div>
+            <span class="welcome-label">TEAM OVERVIEW</span>
+
+            <h3>Welcome back, @User.Identity?.Name</h3>
+
+            <p>
+                Monitor your team, manage employees,
+                and oversee daily operations.
+            </p>
+        </div>
+
+        <div class="welcome-date">
+            <i class="bi bi-calendar3"></i>
+            @DateTime.Now.ToString("dd MMM yyyy")
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+    <div class="admin-stat-grid">
+
+        <div class="admin-stat-card">
+            <div class="stat-icon purple">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <div class="stat-details">
+                <span>Total Employees</span>
+                <h3>@Model.TotalEmployees</h3>
+                <small>Team members</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="stat-icon green">
+                <i class="bi bi-person-check-fill"></i>
+            </div>
+
+            <div class="stat-details">
+                <span>Active Employees</span>
+                <h3>@Model.ActiveEmployees</h3>
+                <small>Active team members</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="stat-icon orange">
+                <i class="bi bi-person-x-fill"></i>
+            </div>
+
+            <div class="stat-details">
+                <span>Inactive Employees</span>
+                <h3>@Model.InactiveEmployees</h3>
+                <small>Inactive accounts</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="stat-icon blue">
+                <i class="bi bi-person-heart"></i>
+            </div>
+
+            <div class="stat-details">
+                <span>Total Customers</span>
+                <h3>@Model.TotalCustomers</h3>
+                <small>Registered customers</small>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="admin-dashboard-grid mt-4">
+
+        <!-- Quick Actions -->
+        <div class="admin-panel">
+
+            <div class="panel-header">
+                <div>
+                    <h5>Quick Actions</h5>
+                    <p>Frequently used team management tools</p>
+                </div>
+
+                <i class="bi bi-lightning-charge-fill panel-header-icon"></i>
+            </div>
+
+            <div class="quick-action-grid">
+
+                <a asp-controller="Employee"
+                   asp-action="Index"
+                   class="quick-action">
+
+                    <i class="bi bi-people-fill"></i>
+
+                    <span>Employees</span>
+
+                    <small>View and manage employees</small>
+
+                </a>
+
+                <a asp-controller="Customer"
+                   asp-action="Index"
+                   class="quick-action">
+
+                    <i class="bi bi-person-heart"></i>
+
+                    <span>Customers</span>
+
+                    <small>View customer accounts</small>
+
+                </a>
+
+                <a asp-controller="Account"
+                   asp-action="Profile"
+                   class="quick-action">
+
+                    <i class="bi bi-person-circle"></i>
+
+                    <span>My Profile</span>
+
+                    <small>Manage your profile</small>
+
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Privacy"
+                   class="quick-action">
+
+                    <i class="bi bi-shield-lock"></i>
+
+                    <span>Privacy</span>
+
+                    <small>View privacy information</small>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Team Overview -->
+        <div class="admin-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <h5>Team Overview</h5>
+                    <p>Employee account status</p>
+                </div>
+
+                <i class="bi bi-diagram-3-fill panel-header-icon"></i>
+
+            </div>
+
+            <div class="role-distribution">
+
+                <div class="role-stat-item">
+
+                    <div class="role-stat-heading">
+                        <span>Active Employees</span>
+                        <strong>@Model.ActiveEmployees</strong>
+                    </div>
+
+                    <div class="role-progress">
+
+                        <div class="role-progress-bar"
+                             style="width:@(Model.TotalEmployees > 0
+                                                              ? (Model.ActiveEmployees * 100.0 / Model.TotalEmployees)
+                                                                  .ToString("0.##",
+                                                                      System.Globalization.CultureInfo.InvariantCulture)
+                                                              : "0")%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="role-stat-item">
+
+                    <div class="role-stat-heading">
+                        <span>Inactive Employees</span>
+                        <strong>@Model.InactiveEmployees</strong>
+                    </div>
+
+                    <div class="role-progress">
+
+                        <div class="role-progress-bar inactive-progress"
+                             style="width:@(Model.TotalEmployees > 0
+                                                              ? (Model.InactiveEmployees * 100.0 / Model.TotalEmployees)
+                                                                  .ToString("0.##",
+                                                                      System.Globalization.CultureInfo.InvariantCulture)
+                                                              : "0")%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Employees -->
+    <div class="admin-panel admin-table-panel mt-4">
+
+        <div class="panel-header">
+
+            <div>
+                <h5>Recent Employees</h5>
+                <p>Recently registered team members</p>
+            </div>
+
+            <i class="bi bi-people panel-header-icon"></i>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table admin-table align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Registered</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model.RecentEmployees.Any())
+                    {
+                        @foreach (var employee in Model.RecentEmployees)
+                        {
+                            <tr>
+
+                                <td>
+                                    <div class="table-user">
+
+                                        <div class="table-avatar">
+                                            @(string.IsNullOrEmpty(employee.FullName)
+                                                                                ? "E"
+                                                                                : employee.FullName.Substring(0, 1).ToUpper())
+                                </div>
+
+                                        <strong>@employee.FullName</strong>
+
+                                    </div>
+                                </td>
+
+                                <td>@employee.Email</td>
+
+                                <td>
+                                    <span class="role-badge">
+                                        @employee.Role
+                                    </span>
+                                </td>
+
+                                <td>
+                            @if (employee.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Inactive
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @employee.CreatedAt.ToString("dd MMM yyyy")
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5"
+                                class="text-center py-4 text-muted">
+                                No employees found.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

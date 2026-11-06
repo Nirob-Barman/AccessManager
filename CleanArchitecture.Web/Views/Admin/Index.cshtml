@@ -1,0 +1,214 @@
+﻿@model CleanArchitecture.Web.Models.AdminDashboard.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="admin-dashboard">
+
+    <!-- Welcome Header -->
+    <div class="admin-welcome">
+
+        <div>
+            <span class="admin-welcome-label">
+                ADMINISTRATION OVERVIEW
+            </span>
+
+            <h3>Welcome back, @User.Identity?.Name</h3>
+
+            <p>
+                Manage your organization's users and daily operations.
+            </p>
+        </div>
+
+        <div class="admin-welcome-date">
+            <i class="bi bi-calendar3"></i>
+            @DateTime.Now.ToString("dd MMM yyyy")
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+    <div class="admin-stat-grid">
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon purple">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <div class="admin-stat-details">
+                <span>Total Users</span>
+                <h3>@Model.TotalUsers.ToString("N0")</h3>
+                <small>Managed accounts</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon green">
+                <i class="bi bi-person-check-fill"></i>
+            </div>
+
+            <div class="admin-stat-details">
+                <span>Active Users</span>
+                <h3>@Model.ActiveUsers.ToString("N0")</h3>
+                <small>Active accounts</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon orange">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+
+            <div class="admin-stat-details">
+                <span>Managers</span>
+                <h3>@Model.TotalManagers.ToString("N0")</h3>
+                <small>Assigned managers</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon blue">
+                <i class="bi bi-person-workspace"></i>
+            </div>
+
+            <div class="admin-stat-details">
+                <span>Employees</span>
+                <h3>@Model.TotalEmployees.ToString("N0")</h3>
+                <small>Registered employees</small>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon purple">
+                <i class="bi bi-person-heart"></i>
+            </div>
+
+            <div class="admin-stat-details">
+                <span>Customers</span>
+                <h3>@Model.TotalCustomers.ToString("N0")</h3>
+                <small>Registered customers</small>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="admin-dashboard-grid">
+
+        <!-- Quick Actions -->
+        <div class="admin-panel">
+
+            <div class="admin-panel-header">
+
+                <div>
+                    <h5>Quick Actions</h5>
+                    <p>Frequently used administration tools</p>
+                </div>
+
+                <i class="bi bi-lightning-charge-fill"></i>
+
+            </div>
+
+            <div class="admin-quick-action-grid">
+
+                <a asp-controller="RoleManagement"
+                   asp-action="Index"
+                   class="admin-quick-action">
+
+                    <i class="bi bi-shield-check"></i>
+                    <span>Manage Roles</span>
+                    <small>Manage organizational roles</small>
+
+                </a>
+
+                <a asp-controller="RolePermission"
+                   asp-action="Index"
+                   class="admin-quick-action">
+
+                    <i class="bi bi-key-fill"></i>
+                    <span>Permissions</span>
+                    <small>Manage access permissions</small>
+
+                </a>
+
+                <a asp-controller="Customer"
+                   asp-action="Index"
+                   class="admin-quick-action">
+
+                    <i class="bi bi-people-fill"></i>
+                    <span>Customers</span>
+                    <small>Manage customer accounts</small>
+
+                </a>
+
+                <a asp-controller="Account"
+                   asp-action="Profile"
+                   class="admin-quick-action">
+
+                    <i class="bi bi-person-circle"></i>
+                    <span>My Profile</span>
+                    <small>Manage your profile</small>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Administration Information -->
+        <div class="admin-panel">
+
+            <div class="admin-panel-header">
+
+                <div>
+                    <h5>Administration Overview</h5>
+                    <p>Your administrative responsibilities</p>
+                </div>
+
+                <i class="bi bi-gear-fill"></i>
+
+            </div>
+
+            <div class="admin-responsibility-list">
+
+                <div class="admin-responsibility-item">
+
+                    <div>
+                        <strong>User Management</strong>
+                        <small>Manage permitted user accounts.</small>
+                    </div>
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                </div>
+
+                <div class="admin-responsibility-item">
+
+                    <div>
+                        <strong>Role Management</strong>
+                        <small>Manage organizational roles.</small>
+                    </div>
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                </div>
+
+                <div class="admin-responsibility-item">
+
+                    <div>
+                        <strong>Permission Management</strong>
+                        <small>Configure access permissions.</small>
+                    </div>
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,64 @@
+﻿@using CleanArchitecture.Application.Constants
+
+@{
+    var userName = User.Identity?.Name ?? "User";
+    var activeRole = User.FindFirst("ActiveRole")?.Value ?? "User";
+
+    var initials = string.Join("",
+        userName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Take(2)
+                .Select(x => x.Substring(0, 1).ToUpper()));
+}
+
+<div class="sidebar-user">
+
+    <div class="sidebar-user-info">
+
+        <div class="sidebar-avatar">
+            @initials
+        </div>
+
+        <div class="sidebar-user-details">
+
+            <div class="sidebar-user-name">
+                @userName
+            </div>
+
+            <div class="sidebar-user-role">
+                @activeRole
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="sidebar-user-actions">
+
+        <a asp-controller="Account"
+           asp-action="Profile"
+           class="sidebar-action"
+           title="My Profile">
+
+            <i class="bi bi-person"></i>
+
+        </a>
+
+        <form asp-controller="Auth"
+              asp-action="Logout"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <button type="submit"
+                    class="sidebar-action logout-action"
+                    title="Logout">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>

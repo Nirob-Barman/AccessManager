@@ -1,0 +1,58 @@
+﻿@using CleanArchitecture.Application.Constants
+@{
+    var roles = new[]
+    {
+        (RoleConstants.SuperAdmin, "Super Admin", "SuperAdmin"),
+        (RoleConstants.SystemAdmin, "System Admin", "SystemAdmin"),
+        (RoleConstants.Admin, "Admin", "Admin"),
+        (RoleConstants.Manager, "Manager", "Manager"),
+        (RoleConstants.Employee, "Employee", "Employee"),
+        (RoleConstants.Customer, "Customer", "Customer")
+    };
+}
+
+<ul class="navbar-nav me-auto">
+
+    @foreach (var role in roles)
+    {
+        if (User.IsInRole(role.Item1))
+        {
+            <li class="nav-item">
+                <a class="nav-link"
+                   asp-controller="@role.Item3"
+                   asp-action="Index">
+                    @role.Item2 Dashboard
+                </a>
+            </li>
+        }
+    }
+
+    @if (User.IsInRole(RoleConstants.SuperAdmin) ||
+        User.IsInRole(RoleConstants.Admin))
+    {
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="RoleManagement"
+               asp-action="Index">
+                Role Management
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="RolePermission"
+               asp-action="Index">
+                Role Permission
+            </a>
+        </li>
+    }
+
+    <li class="nav-item">
+        <a class="nav-link"
+           asp-controller="Home"
+           asp-action="Privacy">
+            Privacy
+        </a>
+    </li>
+
+</ul>

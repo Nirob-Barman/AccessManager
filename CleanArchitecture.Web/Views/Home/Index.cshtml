@@ -1,0 +1,202 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="landing-page">
+
+    <!-- Hero Section -->
+    <section class="landing-hero">
+
+        <div class="landing-container">
+
+            <span class="hero-badge">
+                <i class="bi bi-shield-check"></i>
+                Enterprise Application Platform
+            </span>
+
+            <h1>
+                Welcome to
+                <span>AccessManager</span>
+            </h1>
+
+            <p class="hero-description">
+                A centralized platform for managing users, roles,
+                permissions, and business operations with security,
+                flexibility, and simplicity.
+            </p>
+
+            <div class="hero-actions">
+
+                <a asp-controller="Auth"
+                   asp-action="Login"
+                   class="btn-landing-primary">
+
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Login to Dashboard
+
+                </a>
+
+                <a href="#features"
+                   class="btn-landing-secondary">
+
+                    Explore Features
+                    <i class="bi bi-arrow-down"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Features Section -->
+    <section class="landing-features" id="features">
+
+        <div class="landing-container">
+
+            <div class="section-heading">
+
+                <span>OUR PLATFORM</span>
+
+                <h2>Everything You Need in One Place</h2>
+
+                <p>
+                    Manage your organization efficiently through
+                    a secure and centralized application.
+                </p>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <h4>User Management</h4>
+
+                    <p>
+                        Manage users, accounts, and user information
+                        from one centralized platform.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+
+                    <h4>Role Management</h4>
+
+                    <p>
+                        Organize users with flexible role-based
+                        access management.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-key-fill"></i>
+                    </div>
+
+                    <h4>Permission Management</h4>
+
+                    <p>
+                        Control application access with
+                        granular permissions.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-speedometer2"></i>
+                    </div>
+
+                    <h4>Role-Based Dashboards</h4>
+
+                    <p>
+                        Provide dedicated dashboards based
+                        on user roles and responsibilities.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-person-check-fill"></i>
+                    </div>
+
+                    <h4>Secure Authentication</h4>
+
+                    <p>
+                        Protect application resources with
+                        secure authentication and authorization.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-diagram-3-fill"></i>
+                    </div>
+
+                    <h4>Clean Architecture</h4>
+
+                    <p>
+                        Maintainable, scalable, and organized
+                        application architecture.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Call To Action -->
+    <section class="landing-cta">
+
+        <div class="landing-container">
+
+            <h2>Ready to Get Started?</h2>
+
+            <p>
+                Access your personalized dashboard and
+                manage your operations efficiently.
+            </p>
+
+            <a asp-controller="Auth"
+               asp-action="Login"
+               class="btn-landing-primary">
+
+                Login to Your Account
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
