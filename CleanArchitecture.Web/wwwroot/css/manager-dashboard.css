@@ -1,31 +1,647 @@
+
+/* =========================================================
+   MANAGER DASHBOARD
+   AccessManager
+========================================================= */
+
 .manager-dashboard {
+    --manager-primary: #635bdb;
+    --manager-primary-light: #eeedff;
+    --manager-success: #16a36a;
+    --manager-success-light: #e8f8f0;
+    --manager-warning: #e99a28;
+    --manager-warning-light: #fff5e5;
+    --manager-info: #3184d6;
+    --manager-info-light: #eaf3ff;
+    --manager-text: #202938;
+    --manager-muted: #7b8494;
+    --manager-border: #e9edf3;
+    --manager-background: #ffffff;
     width: 100%;
+    color: var(--manager-text);
+    padding-bottom: 30px;
 }
 
-    /* Team Overview */
+    .manager-dashboard * {
+        box-sizing: border-box;
+    }
+
+    /* =========================================================
+   WELCOME HEADER
+========================================================= */
+
+    .manager-dashboard .dashboard-welcome {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        padding: 30px 32px;
+        margin-bottom: 26px;
+        border-radius: 16px;
+        background: linear-gradient(120deg, #f1efff, #f8f9ff);
+        border: 1px solid #e9e6ff;
+    }
+
+    .manager-dashboard .welcome-content {
+        min-width: 0;
+    }
+
+    .manager-dashboard .welcome-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--manager-primary);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        margin-bottom: 12px;
+    }
+
+    .manager-dashboard .dashboard-welcome h3 {
+        font-size: 27px;
+        font-weight: 700;
+        color: #252b45;
+        margin: 0 0 9px;
+    }
+
+    .manager-dashboard .dashboard-welcome p {
+        color: #727b91;
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .manager-dashboard .welcome-date {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        flex-shrink: 0;
+        padding: 11px 16px;
+        border: 1px solid #e5e2fa;
+        border-radius: 10px;
+        background: #ffffff;
+        color: #555d75;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+        .manager-dashboard .welcome-date i {
+            color: var(--manager-primary);
+            font-size: 17px;
+        }
+
+    /* =========================================================
+   STATISTICS GRID
+========================================================= */
+
+    .manager-dashboard .admin-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .manager-dashboard .admin-stat-card {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+        min-width: 0;
+        padding: 23px 20px;
+        background: var(--manager-background);
+        border: 1px solid var(--manager-border);
+        border-radius: 14px;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+        .manager-dashboard .admin-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(31, 41, 55, .07);
+        }
+
+    .manager-dashboard .stat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        flex-shrink: 0;
+        border-radius: 13px;
+        font-size: 23px;
+    }
+
+        .manager-dashboard .stat-icon.purple {
+            color: var(--manager-primary);
+            background: var(--manager-primary-light);
+        }
+
+        .manager-dashboard .stat-icon.green {
+            color: var(--manager-success);
+            background: var(--manager-success-light);
+        }
+
+        .manager-dashboard .stat-icon.orange {
+            color: var(--manager-warning);
+            background: var(--manager-warning-light);
+        }
+
+        .manager-dashboard .stat-icon.blue {
+            color: var(--manager-info);
+            background: var(--manager-info-light);
+        }
+
+    .manager-dashboard .stat-details {
+        min-width: 0;
+    }
+
+        .manager-dashboard .stat-details span {
+            display: block;
+            color: var(--manager-muted);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .manager-dashboard .stat-details h3 {
+            color: var(--manager-text);
+            font-size: 26px;
+            font-weight: 750;
+            margin: 0 0 5px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .manager-dashboard .stat-details small {
+            color: #9aa2af;
+            font-size: 11px;
+        }
+
+    /* =========================================================
+   DASHBOARD MAIN GRID
+========================================================= */
+
+    .manager-dashboard .admin-dashboard-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 20px;
+        align-items: stretch;
+    }
+
+    /* =========================================================
+   PANELS
+========================================================= */
+
+    .manager-dashboard .admin-panel {
+        min-width: 0;
+        padding: 24px;
+        background: var(--manager-background);
+        border: 1px solid var(--manager-border);
+        border-radius: 14px;
+    }
+
+    .manager-dashboard .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 23px;
+    }
+
+        .manager-dashboard .panel-header h5 {
+            color: var(--manager-text);
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 6px;
+        }
+
+        .manager-dashboard .panel-header p {
+            color: var(--manager-muted);
+            font-size: 12px;
+            margin: 0;
+        }
+
+    .manager-dashboard .panel-header-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 39px;
+        height: 39px;
+        flex-shrink: 0;
+        border-radius: 11px;
+        background: var(--manager-primary-light);
+        color: var(--manager-primary);
+        font-size: 18px;
+    }
+
+    /* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+    .manager-dashboard .quick-action-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 13px;
+    }
+
+    .manager-dashboard .quick-action {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+        padding: 19px;
+        text-decoration: none;
+        color: var(--manager-text);
+        background: #fafbfe;
+        border: 1px solid var(--manager-border);
+        border-radius: 12px;
+        transition: all .2s ease;
+    }
+
+        .manager-dashboard .quick-action:hover {
+            background: #f4f2ff;
+            border-color: #d9d4ff;
+            transform: translateY(-2px);
+            color: var(--manager-primary);
+        }
+
+        .manager-dashboard .quick-action > i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 39px;
+            height: 39px;
+            margin-bottom: 13px;
+            border-radius: 10px;
+            background: var(--manager-primary-light);
+            color: var(--manager-primary);
+            font-size: 19px;
+        }
+
+        .manager-dashboard .quick-action span {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .manager-dashboard .quick-action small {
+            color: var(--manager-muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+    /* =========================================================
+   TEAM OVERVIEW
+========================================================= */
+
+    .manager-dashboard .role-distribution {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .manager-dashboard .role-stat-item {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+    }
+
+    .manager-dashboard .role-stat-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 12px;
+    }
+
+        .manager-dashboard .role-stat-heading > span {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #5d6575;
+            font-weight: 600;
+        }
+
+        .manager-dashboard .role-stat-heading strong {
+            color: var(--manager-text);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+            .manager-dashboard .role-stat-heading strong small {
+                color: var(--manager-muted);
+                font-size: 11px;
+                font-weight: 500;
+            }
+
+    .manager-dashboard .status-dot {
+        font-size: 8px;
+    }
+
+    .manager-dashboard .active-dot {
+        color: var(--manager-success);
+    }
+
+    .manager-dashboard .inactive-dot {
+        color: #a5adba;
+    }
+
+    .manager-dashboard .role-progress {
+        width: 100%;
+        height: 9px;
+        overflow: hidden;
+        background: #edf0f5;
+        border-radius: 20px;
+    }
 
     .manager-dashboard .role-progress-bar {
-        background: linear-gradient(90deg, #4f46e5, #818cf8);
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #16a36a, #42c58c);
+        border-radius: 20px;
+        transition: width .5s ease;
     }
 
-    .manager-dashboard .inactive-progress {
-        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        .manager-dashboard .role-progress-bar.inactive-progress {
+            background: linear-gradient(90deg, #9ba4b2, #c0c6d0);
+        }
+
+    /* =========================================================
+   TEAM SUMMARY
+========================================================= */
+
+    .manager-dashboard .team-summary {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        padding-top: 20px;
+        border-top: 1px solid var(--manager-border);
     }
 
-    /* Recent Employees */
+        .manager-dashboard .team-summary > div {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8f9fc;
+        }
+
+        .manager-dashboard .team-summary span {
+            color: var(--manager-muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .manager-dashboard .team-summary strong {
+            color: var(--manager-text);
+            font-size: 21px;
+            font-weight: 750;
+            font-variant-numeric: tabular-nums;
+        }
+
+    /* =========================================================
+   RECENT EMPLOYEES TABLE
+========================================================= */
+
+    .manager-dashboard .admin-table-panel {
+        margin-top: 22px;
+    }
+
+    .manager-dashboard .panel-action-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--manager-primary);
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+        .manager-dashboard .panel-action-link:hover {
+            color: #4038a9;
+        }
+
+    .manager-dashboard .admin-table {
+        width: 100%;
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .manager-dashboard .admin-table thead th {
+            padding: 14px 15px;
+            color: #7d8797;
+            background: #f8f9fc;
+            border-bottom: 1px solid var(--manager-border);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+            .manager-dashboard .admin-table thead th:first-child {
+                border-radius: 8px 0 0 8px;
+            }
+
+            .manager-dashboard .admin-table thead th:last-child {
+                border-radius: 0 8px 8px 0;
+            }
+
+        .manager-dashboard .admin-table tbody td {
+            padding: 15px;
+            color: #586174;
+            border-bottom: 1px solid #f0f2f6;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+        .manager-dashboard .admin-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .manager-dashboard .admin-table tbody tr {
+            transition: background .15s ease;
+        }
+
+            .manager-dashboard .admin-table tbody tr:hover {
+                background: #fafbff;
+            }
+
+    /* Employee Avatar */
+
+    .manager-dashboard .table-user {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 150px;
+    }
 
     .manager-dashboard .table-avatar {
-        background: #eef2ff;
-        color: #4f46e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        color: var(--manager-primary);
+        background: var(--manager-primary-light);
+        border-radius: 50%;
+        font-size: 13px;
+        font-weight: 750;
     }
 
-/* Responsive */
+    .manager-dashboard .table-user strong {
+        color: var(--manager-text);
+        font-size: 12px;
+        font-weight: 650;
+    }
+
+    .manager-dashboard .employee-email {
+        overflow-wrap: anywhere;
+    }
+
+    .manager-dashboard .role-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 10px;
+        color: #6256c9;
+        background: #f0eeff;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .manager-dashboard .admin-table .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 650;
+    }
+
+    .manager-dashboard .registration-date {
+        white-space: nowrap;
+        color: #788294;
+        font-size: 11px;
+    }
+
+    /* Empty State */
+
+    .manager-dashboard .dashboard-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 35px 15px;
+        color: var(--manager-muted);
+        text-align: center;
+    }
+
+        .manager-dashboard .dashboard-empty-state > i {
+            font-size: 30px;
+            color: #b2b9c7;
+        }
+
+        .manager-dashboard .dashboard-empty-state strong {
+            color: var(--manager-text);
+            font-size: 13px;
+        }
+
+        .manager-dashboard .dashboard-empty-state span {
+            font-size: 11px;
+        }
+
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .manager-dashboard .admin-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .manager-dashboard .admin-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
 @media (max-width: 768px) {
 
     .manager-dashboard .dashboard-welcome {
-        flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        flex-direction: column;
+        padding: 24px;
+    }
+
+        .manager-dashboard .dashboard-welcome h3 {
+            font-size: 23px;
+        }
+
+    .manager-dashboard .welcome-date {
+        align-self: flex-start;
+    }
+
+    .manager-dashboard .admin-panel {
+        padding: 19px;
+    }
+
+    .manager-dashboard .quick-action-grid {
+        gap: 10px;
+    }
+
+    .manager-dashboard .admin-table thead th,
+    .manager-dashboard .admin-table tbody td {
+        padding: 12px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .manager-dashboard .admin-stat-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .manager-dashboard .admin-stat-card {
+        padding: 18px;
+    }
+
+    .manager-dashboard .dashboard-welcome {
+        padding: 20px;
+    }
+
+        .manager-dashboard .dashboard-welcome h3 {
+            font-size: 21px;
+        }
+
+    .manager-dashboard .quick-action-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .manager-dashboard .team-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .manager-dashboard .panel-header {
+        align-items: flex-start;
+    }
+
+    .manager-dashboard .admin-table-panel {
+        padding: 15px;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .manager-dashboard *,
+    .manager-dashboard *::before,
+    .manager-dashboard *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }
