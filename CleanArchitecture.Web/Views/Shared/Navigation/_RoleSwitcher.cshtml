@@ -23,106 +23,109 @@
         <div class="role-switcher">
 
             <!-- Impersonation Dropdown -->
-            <div class="dropdown">
+            @if (isSuperAdmin || isAdmin || isManager)
+            {
+                <div class="dropdown">
 
-                <button class="btn btn-sm btn-primary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown">
+                    <button class="btn btn-sm btn-primary dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown">
 
-                    <i class="bi bi-person-fill-check me-1"></i>
-                    Login As
+                        <i class="bi bi-person-fill-check me-1"></i>
+                        Login As
 
-                </button>
+                    </button>
 
-                <ul class="dropdown-menu dropdown-menu-end">
+                    <ul class="dropdown-menu dropdown-menu-end">
 
-                    @if (isSuperAdmin || isSystemAdmin)
-                    {
-                        <li>
-                            <form asp-controller="Auth"
-                                  asp-action="ImpersonateAdmin"
-                                  method="post">
+                        @if (isSuperAdmin || isSystemAdmin)
+                        {
+                            <li>
+                                <form asp-controller="Auth"
+                                      asp-action="ImpersonateAdmin"
+                                      method="post">
 
-                                @Html.AntiForgeryToken()
+                                    @Html.AntiForgeryToken()
 
-                                <button type="submit"
-                                        class="dropdown-item">
+                                    <button type="submit"
+                                            class="dropdown-item">
 
-                                    <i class="bi bi-shield-check me-2"></i>
-                                    Admin
+                                        <i class="bi bi-shield-check me-2"></i>
+                                        Admin
 
-                                </button>
+                                    </button>
 
-                            </form>
-                        </li>
-                    }
+                                </form>
+                            </li>
+                        }
 
-                    @if (isAdmin)
-                    {
-                        <li>
-                            <form asp-controller="Auth"
-                                  asp-action="ImpersonateManager"
-                                  method="post">
+                        @if (isAdmin)
+                        {
+                            <li>
+                                <form asp-controller="Auth"
+                                      asp-action="ImpersonateManager"
+                                      method="post">
 
-                                @Html.AntiForgeryToken()
+                                    @Html.AntiForgeryToken()
 
-                                <button type="submit"
-                                        class="dropdown-item">
+                                    <button type="submit"
+                                            class="dropdown-item">
 
-                                    <i class="bi bi-person-badge me-2"></i>
-                                    Manager
+                                        <i class="bi bi-person-badge me-2"></i>
+                                        Manager
 
-                                </button>
+                                    </button>
 
-                            </form>
-                        </li>
-                    }
+                                </form>
+                            </li>
+                        }
 
-                    @if (isAdmin || isManager)
-                    {
-                        <li>
-                            <form asp-controller="Auth"
-                                  asp-action="ImpersonateEmployee"
-                                  method="post">
+                        @if (isAdmin || isManager)
+                        {
+                            <li>
+                                <form asp-controller="Auth"
+                                      asp-action="ImpersonateEmployee"
+                                      method="post">
 
-                                @Html.AntiForgeryToken()
+                                    @Html.AntiForgeryToken()
 
-                                <button type="submit"
-                                        class="dropdown-item">
+                                    <button type="submit"
+                                            class="dropdown-item">
 
-                                    <i class="bi bi-people me-2"></i>
-                                    Employee
+                                        <i class="bi bi-people me-2"></i>
+                                        Employee
 
-                                </button>
+                                    </button>
 
-                            </form>
-                        </li>
+                                </form>
+                            </li>
 
-                        <li>
-                            <form asp-controller="Auth"
-                                  asp-action="ImpersonateCustomer"
-                                  method="post">
+                            <li>
+                                <form asp-controller="Auth"
+                                      asp-action="ImpersonateCustomer"
+                                      method="post">
 
-                                @Html.AntiForgeryToken()
+                                    @Html.AntiForgeryToken()
 
-                                <button type="submit"
-                                        class="dropdown-item">
+                                    <button type="submit"
+                                            class="dropdown-item">
 
-                                    <i class="bi bi-person me-2"></i>
-                                    Customer
+                                        <i class="bi bi-person me-2"></i>
+                                        Customer
 
-                                </button>
+                                    </button>
 
-                            </form>
-                        </li>
-                    }
+                                </form>
+                            </li>
+                        }
 
-                </ul>
+                    </ul>
 
-            </div>
+                </div>
+            }
 
             <!-- Active Role Switcher -->
-            @if (isSuperAdmin)
+            @if (isSuperAdmin && !User.HasClaim("IsImpersonating", "true"))
             {
                 <form asp-controller="Auth"
                       asp-action="SwitchRole"
