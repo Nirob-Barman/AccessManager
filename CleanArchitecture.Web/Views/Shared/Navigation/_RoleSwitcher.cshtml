@@ -20,10 +20,16 @@
         var activeRole = User.FindFirst("ActiveRole")?.Value
             ?? RoleConstants.SuperAdmin;
 
+        var isSwitchingRole = isSuperAdmin &&
+                  activeRole != RoleConstants.SuperAdmin;
+
+        var canShowLoginAs = !isSwitchingRole &&
+                             (isSuperAdmin || isAdmin || isManager);
+
         <div class="role-switcher">
 
             <!-- Impersonation Dropdown -->
-            @if (isSuperAdmin || isAdmin || isManager)
+            @if (canShowLoginAs)
             {
                 <div class="dropdown">
 
