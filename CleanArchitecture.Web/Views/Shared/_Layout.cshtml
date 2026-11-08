@@ -1,5 +1,10 @@
 ﻿@{
     var isAuthenticated = User.Identity?.IsAuthenticated == true;
+
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+
+    var isHomePage = controller == "Home" && action == "Index";
 }
 
 <!DOCTYPE html>
@@ -14,7 +19,7 @@
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CleanArchitecture.Web.styles.css" asp-append-version="true" />
 
-    @if (!isAuthenticated)
+    @if (isHomePage)
     {
         <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
     }

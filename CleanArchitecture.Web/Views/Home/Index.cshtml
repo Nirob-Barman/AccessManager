@@ -1,5 +1,45 @@
-﻿@{
+﻿@using CleanArchitecture.Application.Constants
+@{
     ViewData["Title"] = "Home";
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+
+    var dashboardController = "Auth";
+    var dashboardAction = "Login";
+
+    if (isAuthenticated)
+    {
+        dashboardAction = "Index";
+
+        if (User.IsInRole(RoleConstants.SuperAdmin))
+        {
+            dashboardController = "SuperAdmin";
+        }
+        else if (User.IsInRole(RoleConstants.SystemAdmin))
+        {
+            dashboardController = "SystemAdmin";
+        }
+        else if (User.IsInRole(RoleConstants.Admin))
+        {
+            dashboardController = "Admin";
+        }
+        else if (User.IsInRole(RoleConstants.Manager))
+        {
+            dashboardController = "Manager";
+        }
+        else if (User.IsInRole(RoleConstants.Employee))
+        {
+            dashboardController = "Employee";
+        }
+        else if (User.IsInRole(RoleConstants.Customer))
+        {
+            dashboardController = "CustomerPortal";
+        }
+        else
+        {
+            dashboardController = "Home";
+            dashboardAction = "Index";
+        }
+    }
 }
 
 <div class="landing-page">
@@ -27,12 +67,20 @@
 
             <div class="hero-actions">
 
-                <a asp-controller="Auth"
-                   asp-action="Login"
+                <a asp-controller="@dashboardController"
+                   asp-action="@dashboardAction"
                    class="btn-landing-primary">
 
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    Login to Dashboard
+                    @if (isAuthenticated)
+                    {
+                        <i class="bi bi-speedometer2"></i>
+                        <text>Go to Dashboard</text>
+                    }
+                    else
+                    {
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <text>Login to Dashboard</text>
+                    }
 
                 </a>
 
@@ -179,18 +227,26 @@
 
         <div class="landing-container">
 
-            <h2>Ready to Get Started?</h2>
+            <h2>
+                @(isAuthenticated
+                                ? "Welcome Back!"
+                                : "Ready to Get Started?")
+            </h2>
 
             <p>
-                Access your personalized dashboard and
-                manage your operations efficiently.
+                @(isAuthenticated
+                                ? "Continue to your personalized dashboard and manage your operations."
+                                : "Access your personalized dashboard and manage your operations efficiently.")
             </p>
 
-            <a asp-controller="Auth"
-               asp-action="Login"
+            <a asp-controller="@dashboardController"
+               asp-action="@dashboardAction"
                class="btn-landing-primary">
 
-                Login to Your Account
+                @(isAuthenticated
+                                ? "Go to Dashboard"
+                                : "Login to Your Account")
+
                 <i class="bi bi-arrow-right"></i>
 
             </a>

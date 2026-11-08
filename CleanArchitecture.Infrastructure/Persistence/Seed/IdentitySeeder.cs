@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using CleanArchitecture.Domain.Constants;
 using CleanArchitecture.Infrastructure.Identity;
 
 namespace CleanArchitecture.Infrastructure.Persistence.Seed;
@@ -100,9 +98,57 @@ public static class IdentitySeeder
                 },
                 new
                 {
+                    Email = "employee2@example.com",
+                    FullName = "David Wilson",
+                    Password = "Employee2@123"
+                },
+                new
+                {
+                    Email = "employee3@example.com",
+                    FullName = "James Taylor",
+                    Password = "Employee3@123"
+                },
+                new
+                {
+                    Email = "employee4@example.com",
+                    FullName = "Robert Johnson",
+                    Password = "Employee4@123"
+                },
+                new
+                {
+                    Email = "employee5@example.com",
+                    FullName = "Daniel Martin",
+                    Password = "Employee5@123"
+                },
+                new
+                {
                     Email = "customer@example.com",
                     FullName = "Default Customer",
                     Password = "Customer@123"
+                },
+                new
+                {
+                    Email = "customer2@example.com",
+                    FullName = "Olivia Brown",
+                    Password = "Customer2@123"
+                },
+                new
+                {
+                    Email = "customer3@example.com",
+                    FullName = "Sophia Davis",
+                    Password = "Customer3@123"
+                },
+                new
+                {
+                    Email = "customer4@example.com",
+                    FullName = "Isabella Miller",
+                    Password = "Customer4@123"
+                },
+                new
+                {
+                    Email = "customer5@example.com",
+                    FullName = "Mia Wilson",
+                    Password = "Customer5@123"
                 }
             };
 
@@ -182,7 +228,47 @@ public static class IdentitySeeder
                 },
                 new
                 {
+                    Email = "employee2@example.com",
+                    Role = "Employee"
+                },
+                new
+                {
+                    Email = "employee3@example.com",
+                    Role = "Employee"
+                },
+                new
+                {
+                    Email = "employee4@example.com",
+                    Role = "Employee"
+                },
+                new
+                {
+                    Email = "employee5@example.com",
+                    Role = "Employee"
+                },
+                new
+                {
                     Email = "customer@example.com",
+                    Role = "Customer"
+                },
+                new
+                {
+                    Email = "customer2@example.com",
+                    Role = "Customer"
+                },
+                new
+                {
+                    Email = "customer3@example.com",
+                    Role = "Customer"
+                },
+                new
+                {
+                    Email = "customer4@example.com",
+                    Role = "Customer"
+                },
+                new
+                {
+                    Email = "customer5@example.com",
                     Role = "Customer"
                 }
             };
