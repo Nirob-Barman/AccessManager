@@ -24,6 +24,11 @@
         <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
     }
 
+    @if (controller == "Home" && action == "Privacy")
+    {
+        <link rel="stylesheet" href="~/css/privacy.css" asp-append-version="true" />
+    }
+
     @if (ViewContext.RouteData.Values["controller"]?.ToString() == "SuperAdmin")
     {
         <link rel="stylesheet" href="~/css/superadmin-dashboard.css" asp-append-version="true" />

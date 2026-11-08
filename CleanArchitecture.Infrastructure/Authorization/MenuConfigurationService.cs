@@ -43,7 +43,7 @@ namespace CleanArchitecture.Infrastructure.Authorization
                         {
                             Key = "Roles",
                             Name = "Role Management",
-                            Controller = "Role",
+                            Controller = "RoleManagement",
                             Action = "Index",
                             SortOrder = 2,
 
