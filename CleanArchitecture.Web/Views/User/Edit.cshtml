@@ -4,57 +4,149 @@
     ViewData["Title"] = "Edit User";
 }
 
-<div class="container mt-4">
+<div class="user-edit-page">
 
-    <div class="card shadow-sm">
+    <!-- Page Header -->
+    <div class="user-edit-header">
 
-        <div class="card-header">
-            Edit User
+        <div>
+            <span class="user-edit-subtitle">USER ADMINISTRATION</span>
+
+            <h3>Edit User</h3>
+
+            <p>Update user account information and details.</p>
         </div>
 
-        <div class="card-body">
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
 
-            @if (TempData["Error"] != null)
-            {
-                <div class="alert alert-danger">
-                    @TempData["Error"]
-                </div>
-            }
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Users
+
+        </a>
+
+    </div>
+
+    <!-- Error Message -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            <i class="bi bi-exclamation-circle me-2"></i>
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+
+        </div>
+    }
+
+    <!-- Edit User Card -->
+    <div class="user-edit-card">
+
+        <div class="user-edit-card-header">
+
+            <div class="user-edit-icon">
+                <i class="bi bi-person-gear"></i>
+            </div>
+
+            <div>
+                <h5>User Information</h5>
+                <p>Modify the information associated with this account.</p>
+            </div>
+
+        </div>
+
+        <div class="user-edit-card-body">
 
             <form asp-action="Edit" method="post">
 
                 @Html.AntiForgeryToken()
 
-                <input type="hidden" name="id" value="@Model.Id" />
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
 
-                <div class="mb-3">
-                    <label class="form-label">Full Name</label>
-                    <input name="name"
-                           value="@Model.Name"
-                           class="form-control"
-                           required />
+                <div class="row g-4">
+
+                    <!-- Full Name -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Full Name
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="user-edit-input-group">
+
+                            <span>
+                                <i class="bi bi-person"></i>
+                            </span>
+
+                            <input name="name"
+                                   value="@Model.Name"
+                                   class="form-control"
+                                   placeholder="Enter full name"
+                                   autocomplete="name"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Email Address
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="user-edit-input-group">
+
+                            <span>
+                                <i class="bi bi-envelope"></i>
+                            </span>
+
+                            <input name="email"
+                                   type="email"
+                                   value="@Model.Email"
+                                   class="form-control"
+                                   placeholder="Enter email address"
+                                   autocomplete="email"
+                                   required />
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input name="email"
-                           type="email"
-                           value="@Model.Email"
-                           class="form-control"
-                           required />
+                <!-- Form Actions -->
+                <div class="user-edit-footer">
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-1"></i>
+                        Update User
+
+                    </button>
+
                 </div>
-
-                <button type="submit" class="btn btn-primary">
-                    Update User
-                </button>
-
-                <a asp-action="Index" class="btn btn-secondary">
-                    Cancel
-                </a>
 
             </form>
 
         </div>
+
     </div>
 
 </div>

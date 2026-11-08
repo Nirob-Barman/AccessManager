@@ -49,6 +49,21 @@
         <link rel="stylesheet" href="~/css/customer-dashboard.css" asp-append-version="true" />
     }
 
+    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "User")
+    {
+        <link rel="stylesheet" href="~/css/user-management.css" asp-append-version="true" />
+
+        @if (action == "Create")
+        {
+            <link rel="stylesheet" href="~/css/user-management" asp-append-version="true" />
+        }
+
+        @if (action == "Edit")
+        {
+            <link rel="stylesheet" href="~/css/user-management" asp-append-version="true" />
+        }
+    }
+
 </head>
 <body>
 

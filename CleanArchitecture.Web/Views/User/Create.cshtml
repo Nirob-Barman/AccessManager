@@ -2,53 +2,143 @@
     ViewData["Title"] = "Create User";
 }
 
-<div class="container mt-4">
+<div class="user-create-page">
 
-    <div class="card shadow-sm">
+    <!-- Page Header -->
+    <div class="user-create-header">
 
-        <div class="card-header">
-            Create User
+        <div>
+            <span class="user-create-subtitle">USER ADMINISTRATION</span>
+
+            <h3>Create User</h3>
+
+            <p>Create a new user account for your organization.</p>
         </div>
 
-        <div class="card-body">
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
 
-            @if (TempData["Error"] != null)
-            {
-                <div class="alert alert-danger">
-                    @TempData["Error"]
-                </div>
-            }
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Users
+
+        </a>
+
+    </div>
+
+    <!-- Error Message -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            <i class="bi bi-exclamation-circle me-2"></i>
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+
+        </div>
+    }
+
+    <!-- Create User Form -->
+    <div class="user-create-card">
+
+        <div class="user-create-card-header">
+
+            <div class="user-create-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+
+            <div>
+                <h5>User Information</h5>
+                <p>Enter the details below to create a user account.</p>
+            </div>
+
+        </div>
+
+        <div class="user-create-card-body">
 
             <form asp-action="Create" method="post">
 
                 @Html.AntiForgeryToken()
 
-                <div class="mb-3">
-                    <label class="form-label">Full Name</label>
-                    <input name="name"
-                           class="form-control"
-                           required />
+                <div class="row g-4">
+
+                    <!-- Full Name -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Full Name
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="user-input-group">
+
+                            <span>
+                                <i class="bi bi-person"></i>
+                            </span>
+
+                            <input name="name"
+                                   class="form-control"
+                                   placeholder="Enter full name"
+                                   autocomplete="name"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Email Address
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="user-input-group">
+
+                            <span>
+                                <i class="bi bi-envelope"></i>
+                            </span>
+
+                            <input name="email"
+                                   type="email"
+                                   class="form-control"
+                                   placeholder="Enter email address"
+                                   autocomplete="email"
+                                   required />
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input name="email"
-                           type="email"
-                           class="form-control"
-                           required />
+                <!-- Form Actions -->
+                <div class="user-create-footer">
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-1"></i>
+                        Save User
+
+                    </button>
+
                 </div>
-
-                <button class="btn btn-success">
-                    Save User
-                </button>
-
-                <a asp-action="Index" class="btn btn-secondary">
-                    Cancel
-                </a>
 
             </form>
 
         </div>
+
     </div>
 
 </div>
